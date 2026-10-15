@@ -1,4 +1,4 @@
-import type { Guide } from '../../types/Guide'
+import type { Guide, EstadoGuia } from '../../types/Guide'
 import { useState } from 'react'
 interface GuideFormProps {
     guides: Guide[]
@@ -23,7 +23,17 @@ function GuideForm({ guides, onAddGuide }: GuideFormProps) {
         const destino = String(formData.get('destino'))
         const destinatario = String(formData.get('destinatario'))
         const fecha = String(formData.get('fecha'))
-        const estado = formData.get('status')?.toString() ?? ''
+        const estadoSeleccionado = formData.get('status')?.toString()//obtiene el valor del formulario
+        //contiene los 3 estados válidos
+        const estadosPermitidos: EstadoGuia[] = [
+            'Pendiente',
+            'En tránsito',
+            'Entregado'
+        ]
+        //busca una coincidencia
+        const estado = estadosPermitidos.find(
+            estado => estado === estadoSeleccionado
+        )
         //revisa los elementos del arreglo y regresa true si el número de guía ya existe
         const guiaExiste = guides.some(guide => guide.numeroGuia === numeroGuia)
         //si falta algún dato no registramos ninguna guía
@@ -37,12 +47,12 @@ function GuideForm({ guides, onAddGuide }: GuideFormProps) {
             destino: !destino ? 'Selecciona un destino' : '',
             destinatario: !destinatario ? 'Ingresa el nombre del destinatario' : '',
             fecha: !fecha ? 'Selecciona una fecha' : '',
-            estado: !estado ? 'Selecciona un estado del paquete' : '',
+            estado: !estado ? 'Selecciona un estado válido del paquete' : '',
         }
 
         setErrors(newErrors)
 
-        if (Object.values(newErrors).some(error => error)) {
+         if (Object.values(newErrors).some(error => error) || !estado) {
             return
         }
         const newGuide: Guide = {
@@ -150,7 +160,7 @@ function GuideForm({ guides, onAddGuide }: GuideFormProps) {
                         <option value="Yucatán">Yucatán</option>
                         <option value="Zacatecas">Zacatecas</option>
                     </select>
-                    {errors.destino && (<> <img className="error-img" src="img/error.png" alt="Error"/><span className='error-message'>{errors.destino}</span></>)}
+                    {errors.destino && (<> <img className="error-img" src="/img/error.png" alt="Error"/><span className='error-message'>{errors.destino}</span></>)}
                 </div>
                 <div className="campo">
                     <label htmlFor="destname">Destinatario</label>
@@ -160,7 +170,7 @@ function GuideForm({ guides, onAddGuide }: GuideFormProps) {
                 <div className="campo">
                     <label htmlFor="fecha">Fecha de creación</label>
                     <input type="date" name= "fecha" id="fecha" max={today} />
-                     {errors.fecha && (<><img className="error-img" src="img/error.png"/><span className='error-message'>{errors.fecha}</span></> )}
+                     {errors.fecha && (<><img className="error-img" src="/img/error.png"/><span className='error-message'>{errors.fecha}</span></> )}
                 </div>
                <div className="campo--radio">
                     <div className="opciones-radio">
@@ -184,7 +194,7 @@ function GuideForm({ guides, onAddGuide }: GuideFormProps) {
 
                     {errors.estado && (
                         <>
-                        <img className="error-img" src="img/error.png" />
+                        <img className="error-img" src="/img/error.png" />
                         <span className="error-message">{errors.estado}</span>
                         </>
                     )}
