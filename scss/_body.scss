@@ -5,6 +5,7 @@ body{
          margin: 0 20% 0 20%;
          .principal{
              @include ancho(100%);
+             
              font-weight: 800;
              @include flex();
              #logo{
@@ -14,27 +15,40 @@ body{
                  @include ancho(10%);
              }
              #titulo{
-                 @include ancho(67%);  
+                 @include ancho(60%);  
                  
              }
+             img {
+                max-width: 100%;
+                height: auto;
+            }
             
          }
          .menu{
              background-color: $colorBlue;
              @include ancho(100%);
+             box-sizing: border-box;
              height: 60px;
              padding: 20px 45px 20px 20px;
              nav{
-                 @include flex();
+                @include flex();
+                align-items: center;
+                height: 100%;
+                 ul {
+                    display: flex; // Coloca los cuatro enlaces en una fila
+                    justify-content: space-around; // Distribuye el espacio entre ellos
+                    gap: 12px;
+                    align-items: center; // Los alinea verticalmente
+                    list-style: none; // Quita las viñetas
+                    width: 100%; // Ocupa todo el ancho del menú
+                    padding: 0; // Quita el espacio predeterminado
+                    margin: 0;
+                }
                  a{
                      color:$colorWhite;
                      font-size: 1rem;
                      text-decoration: none; 
-                     @include mediaquery(912px){
-                       
-                         font-size: .5rem;
-                        
-                     } 
+                  
                      &:hover{
                          @include link($colorYellow);
                      }
@@ -45,24 +59,24 @@ body{
      }
      main{
          margin: 0 20% 0 20%;
+        
          .container{
              @include ancho(100%);
-             padding: 20px 45px 20px 20px;
+              box-sizing: border-box;
+             padding: 20px 0;
              display:grid;
              grid-gap:10px;
-             grid-template-columns: repeat(2,1fr); 
+             //grid-template-columns: repeat(2,1fr); 
+             grid-template-columns: repeat(2, minmax(0, 1fr));
+          
              article{
                  @include ancho(100%); 
              }
              &__registro{
                  background-color: $colorgray;
                  form{
+                    padding-top: 15px;
                      @include ancho(100%); 
-                     fieldset{
-                        @include mediaquery(1130px){
-                            font-size:.8rem;
-                         }
-                        
                         color: $colorWhite;
                          legend{
                              @include legend();
@@ -71,9 +85,43 @@ body{
                             width: 18px;
                          }
                          .btnRegister{
-                            background-color: colorBlue;
-                            color: colorWhite;
+                            background-color: $colorBlue;
+                            color: $colorWhite;
+                            margin-bottom: 15px;
+                            margin-top: 15px;
+                            margin-left: 135px;
+                            padding: 8px 15px;
+                            cursor: pointer;
+                            border-radius: 10px;
                          }
+                         .campo {
+                            margin-bottom: 12px;
+                            padding-left: 15px;
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                            label {
+                                width: 125px;
+                                flex-shrink: 0;
+                            }
+                        }
+                        .campo--radio {
+                            padding-left: 15px;
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+                                 // > selecciona solo Estado del paquete
+                                > label {
+                                    width: 125px;
+                                    flex-shrink: 0;
+                                    margin-right: 10px;
+                                }
+                                .opciones-radio {
+                                    display: flex;
+                                    align-items: center;
+                                    gap: 5px;
+                                }
+                        }
                          input{
                             font-size:1rem;
                              margin-bottom: 8px;
@@ -99,16 +147,16 @@ body{
                              background-color: $colorYellow;
                          }
                        
-                     }
+                     
                  }
              }
              &__panel{
                  background-color: $colorGreen;
+                padding: 15px;
                  align-content: space-between;
+                 box-sizing: border-box;
                  fieldset{
-                    @include mediaquery(1130px){
-                        font-size:.8rem;
-                     }
+                    line-height: 1.8;
                      
                      color:#fff;
                      border:0; 
@@ -120,6 +168,7 @@ body{
              }
              &__guias{
                  grid-column: 1/ span 2; 
+                 margin-bottom: 20px;
                  form{
                      .guias__lista{
                          background-color: $colorOrange;
@@ -139,22 +188,14 @@ body{
                          table{
                             @include ancho(100%);
                              color:$colorWhite;
-                             table-layout: fixed;
+                             table-layout: auto;
                              border-collapse: collapse;
                              border: solid 1px $colorWhite;
                              font-size: 1rem;
-                             @include mediaquery(1130px){
-                                font-size:.8rem;
-                             }
-                             @include mediaquery(925px){
-                                font-size:.6rem;
-                             }
-                             @include mediaquery(754px){
-                                font-size:.5rem;
-                             }
-                             @include mediaquery(610px){
-                                font-size:.38rem;
-                             }
+                             .btnHistorial {
+                                 font-size: 0.8rem;
+                            }
+                           
                              thead{
                                  background-color: $colorDark-orange;
                                  tr{
@@ -188,6 +229,10 @@ body{
                             
                             
                          }
+                         > button {
+                            margin: 10px 0 10px 15px;
+                            font-size: 0.9rem;
+                        }
                      }
                  }
              }
@@ -198,6 +243,7 @@ body{
         .footer-blue{
             padding: 20px 45px 20px 20px;
             @include ancho(100%); 
+            box-sizing: border-box;
             background-color:$colorBlue;
             display:grid;
             grid-template-columns: repeat(2,1fr);
@@ -238,6 +284,137 @@ body{
             @include ancho(100%);
             height: 50px;
             padding: 3px 45px 5px 20px;
+            box-sizing: border-box;
         }
     }
  }
+ /*Estilos para la ventana del historial*/
+ .historial-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.historial-modal {
+  background-color: white;
+  color: #091e3f;
+  padding: 25px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    margin: 8px 0;
+  }
+
+  button {
+    background-color: #091e3f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+}
+/* Estilos para tabletas */
+@media (max-width: 1100px) {
+  body main .container__guias table {
+    width: 100%;
+  }
+
+  body main .container__guias table thead {
+    display: none;
+  }
+
+  body main .container__guias table tbody tr {
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  body main .container__guias table tbody td {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  body main .container__guias table tbody td::before {
+    content: attr(data-titulo);
+    flex: 0 0 130px;
+    font-weight: bold;
+  }
+}
+/* Estilos para celulares */
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+   
+    header,
+    main,
+    footer {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    main .container {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    main .container .campo{
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+    }
+    main .container .campo input,
+    main .container .campo select {
+        width: 85%;
+        box-sizing: border-box;
+    }
+    main .container .campo label {
+        white-space: nowrap;
+    }
+    main .container .campo--radio {
+            flex-direction: column;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+    }
+    main .container .opciones-radio {
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+    main .container__guias {
+        grid-column: 1 / -1;
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    main .container .opcion-radio {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    header .menu {
+        height: auto;
+        padding: 12px;
+    }
+    header .menu nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10px;
+    }
+  }
+}
